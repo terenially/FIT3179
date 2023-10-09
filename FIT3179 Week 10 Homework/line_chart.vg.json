@@ -1,6 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Stock prices of 5 Tech Companies over Time, with a point marker on hover. Note that the hidden markers are intentionally bigger to make it easier for readers to hover.",
+  "width":400,
   "data": {"url": "https://raw.githubusercontent.com/terenially/FIT3179/main/FIT3179 Week 10 Homework/data/global-data-on-sustainable-energy.csv"},
   "params":[
     {

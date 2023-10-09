@@ -1,6 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 "title": "Access to electricity (% of population) in 2020",
+"width":400,
 "data": {
 "url": "https://raw.githubusercontent.com/terenially/FIT3179/main/FIT3179 Week 9 Homework/js/ne_110m_admin_0_countries.topojson",
 "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
