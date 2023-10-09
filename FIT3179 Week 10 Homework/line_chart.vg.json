@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Stock prices of 5 Tech Companies over Time, with a point marker on hover. Note that the hidden markers are intentionally bigger to make it easier for readers to hover.",
+  "data": {"url": "https://raw.githubusercontent.com/terenially/FIT3179/main/FIT3179 Week 10 Homework/data/global-data-on-sustainable-energy.csv"},
+  "params":[
+    {
+      "name": "Country_selection",
+      "bind" : {
+        "input":"select",
+        "options":[null, "China", "United States", "India", "Japan", "Germany", "United Kingdom", "Saudi Arabia", "Australia", "Brazil", "Ukraine"],
+        "labels":["Show All","China", "United States", "India", "Japan", "Germany", "United Kingdom", "Saudi Arabia", "Australia", "Brazil", "Ukraine"],
+        "name":"Country selection: "
+    }
+    }
+    ],
+  "transform": [
+    {
+      "filter": {
+        "field": "Entity",
+        "oneOf": ["China", "United States", "India", "Japan", "Germany", "United Kingdom", "Saudi Arabia", "Australia", "Brazil", "Ukraine"]
+      }
+    },
+    {
+      "filter": {
+        "field": "Year",
+        "timeUnit": "year",
+        "range": [2000, 2019]
+      }
+    },
+    {"filter":"Country_selection == null || datum.Entity == Country_selection"} 
+  ],
+  "encoding": {
+    "x": {"field": "Year", "type": "temporal"},
+    "y": {"field": "Value_co2_emissions_kt_by_country", "type": "quantitative", "title": "CO2 Emissions / kt", "scale": {"domain": [0, 11000000] }},
+    "color": {"field": "Entity", "type": "nominal", "title":"Country",
+    "scale":{"domain":["China", "United States", "India", "Japan", "Germany", "United Kingdom", "Saudi Arabia", "Australia", "Brazil", "Ukraine"], "range":["#3D85C6","#FF6F61","#5E8B7E","#F4A261","#2A9D8F","#E9C46A","#264653","#F15B2A","#F6D55C","#8E518D"]}
+    }
+  },
+  "layer": [
+    {
+    "mark": "line"
+  }, 
+  {
+    "params": [{
+      "name": "hover",
+      "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+    }],
+    "mark": {"type": "circle", "tooltip": true},
+    
+    "encoding": {
+      "opacity": {
+        "condition": {"test": {"param": "hover", "empty": false}, "value": 1},
+        "value": 0
+      },
+      "size": {
+        "condition": {"test": {"param": "hover", "empty": false}, "value": 48},
+        "value": 100
+      },
+      "tooltip": [
+          {"field": "Entity", "type": "nominal", "title": "Country"},
+          {"field": "Year", "type": "temporal", "title": "Year", "timeUnit": "year"},
+          {"field": "Value_co2_emissions_kt_by_country", "type": "quantitative", "title": "CO2 Emissions / kt", "format": ".2f"}
+        ]
+    }
+  }]
+}
