@@ -1,0 +1,55 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A bar chart with negative values. We can hide the axis domain line, and instead use a conditional grid color to draw a zero baseline.",
+    "data": {"url": "https://raw.githubusercontent.com/terenially/FIT3179/main/FIT3179_Assignment_2/data/global-data-on-sustainable-energy.csv"},
+    "title": "GDP Growth in 2019",
+    "transform": [
+        {
+          "filter": {
+            "field": "Entity",
+            "oneOf": ["China", "India", "United States", "Japan"]
+          }
+        },
+        {
+            "filter": {
+              "field": "Year",
+              "oneOf": ["2019"]
+            }
+          }
+      ],
+    "encoding": {
+      "y": {
+        "field": "Entity",
+        "title" : "Country",
+        "type": "nominal",
+        "axis": {
+          "domain": false,
+          "ticks": false,
+          "labelAngle": 0,
+          "labelPadding": 4
+        }
+      },
+      "x": {
+        "field": "gdp_growth",
+        "type": "quantitative",
+        "scale": {"padding": 20},
+        "axis": {
+          "gridColor": {
+            "condition": {"test": "datum.value === 0", "value": "black"},
+            "value": "#ddd"
+          }
+        }
+      }
+    },
+    "layer": [
+      {"mark": "bar"},
+      {
+        "mark": {
+          "type": "text",
+          "align": {"expr": "datum.gdp_growth < 0 ? 'right' : 'left'"},
+          "dx": {"expr": "datum.gdp_growth < 0 ? -2 : 2"}
+        },
+        "encoding": {"text": {"field": "gdp_growth", "type": "quantitative","format":".2f"}}
+      }
+    ]
+  }

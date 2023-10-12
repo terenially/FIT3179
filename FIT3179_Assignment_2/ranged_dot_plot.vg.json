@@ -1,0 +1,75 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A ranged dot plot that uses 'layer' to convey changing gdp per capita for the four countries (between 2000 and 2019).",
+    "data": {"url": "https://raw.githubusercontent.com/terenially/FIT3179/main/FIT3179_Assignment_2/data/global-data-on-sustainable-energy.csv"},
+    "width": 500,
+    "transform": [
+      {
+        "filter": {
+          "field": "Entity",
+          "oneOf": ["China", "India", "United States", "Japan"]
+        }
+      },
+      {
+        "filter": {
+          "field": "Year",
+          "oneOf": [2000, 2019]
+        }
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "Renewable energy share in the total final energy consumption (%)",
+        "type": "quantitative",
+        "title": "Renewable energy share in the total final energy consumption (%)"
+      },
+      "y": {
+        "field": "Entity",
+        "type": "nominal",
+        "title": "Country",
+        "axis": {
+          "offset": 5,
+          "ticks": false,
+          "minExtent": 80,
+          "domain": false
+        }
+      }
+    },
+    "layer": [
+      {
+        "mark": "line",
+        "encoding": {
+          "detail": {
+            "field": "Entity",
+            "type": "nominal"
+          },
+          "color": {"value": "#db646f"}
+        }
+      },
+      {
+        "mark": {
+          "type": "point",
+          "filled": true
+        },
+        "encoding": {
+          "color": {
+            "field": "Year",
+            "type": "ordinal",
+            "scale": {
+              "domain": [2000, 2019],
+              "range": ["#e6959c", "#911a24"]
+            },
+            "title": "Year"
+          },
+          "size": {"value": 50},
+          "opacity": {"value": 1},
+          "tooltip": [
+            { "field": "Entity", "title": "Country" },
+            { "field": "Year", "title": "Year" },
+            { "field": "Renewable energy share in the total final energy consumption (%)", "title": "GDP per capita", "format" : ".0f"}
+          ]
+        }
+      }
+    ]
+  }
+  
